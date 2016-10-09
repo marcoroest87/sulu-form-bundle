@@ -8,6 +8,7 @@
         </id>
 
         <field name="uuid" column="uuid" type="string" nullable="false"/>
+        <field name="type" column="type" type="string" nullable="false"/>
         <field name="locale" column="locale" type="string" nullable="false"/>
         <field name="webspaceKey" column="webspaceKey" type="string" nullable="false"/>
 

@@ -226,20 +226,28 @@ class Dynamic implements TimestampableInterface
     /**
      * @param string $uuid
      * @param string $locale
-     * @param Form $formId
+     * @param Form $form
      * @param null|string $webspaceKey
      * @param array $data
      */
-    public function __construct($uuid, $locale, $formId, $webspaceKey = null, $data = [])
+    public function __construct($uuid, $locale, $form, $webspaceKey = null, $data = [])
     {
         $this->uuid = $uuid;
         $this->locale = $locale;
-        $this->form = $formId;
+        $this->form = $form;
         $this->webspaceKey = $webspaceKey;
 
         foreach ($data as $name => $value) {
             $this->$name = $value;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function serialize()
+    {
+        return $this->form->serializeForLocale($this->locale, $this);
     }
 
     /**

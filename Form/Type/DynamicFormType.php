@@ -35,7 +35,7 @@ class DynamicFormType extends AbstractType
     /**
      * @var string
      */
-    private $structureView;
+    private $template;
 
     /**
      * @var string
@@ -53,15 +53,15 @@ class DynamicFormType extends AbstractType
      * @param Form $formEntity
      * @param string $locale
      * @param string $name
-     * @param string $structureView
+     * @param string $template
      * @param int $systemCollectionId
      */
-    public function __construct($formEntity, $locale, $name, $structureView, $systemCollectionId)
+    public function __construct($formEntity, $locale, $name, $template, $systemCollectionId)
     {
         $this->formEntity = $formEntity;
         $this->locale = $locale;
         $this->name = $name;
-        $this->structureView = $structureView;
+        $this->template = $template;
         $this->systemCollectionId = $systemCollectionId;
     }
 
@@ -292,7 +292,7 @@ class DynamicFormType extends AbstractType
      */
     public function getCustomerMail($formData = [])
     {
-        return $this->structureView . '-mail/' . $this->name . '-success.html.twig';
+        return $this->template . '-mail/' . $this->name . '-success.html.twig';
     }
 
     /**
@@ -300,7 +300,7 @@ class DynamicFormType extends AbstractType
      */
     public function getNotifyMail($formData = [])
     {
-        return $this->structureView . '-mail/' . $this->name . '-notify.html.twig';
+        return $this->template . '-mail/' . $this->name . '-notify.html.twig';
     }
 
     /**
