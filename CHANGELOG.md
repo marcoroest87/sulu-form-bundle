@@ -1,6 +1,7 @@
 # Changelog
 
 ## dev-develop
+ - FEATURE     #118   Added media collection strategy tree
  - BUGFIX      #120   Fixed permission problem on false locale
  - BUGFIX      #117   Fixed limitation of content type select
  - FEATURE     #115   Added options for attachment validation
