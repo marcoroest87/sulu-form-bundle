@@ -326,4 +326,16 @@ class Dynamic implements TimestampableInterface
     {
         return $this->changed;
     }
+
+    /**
+     * Get field.
+     *
+     * @param $key
+     *
+     * @return string|array
+     */
+    public function getField($key)
+    {
+        return $this->$key;
+    }
 }

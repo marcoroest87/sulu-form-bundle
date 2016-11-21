@@ -12,6 +12,7 @@
 
     <!-- Define here your own services: -->
     <services>
+        <!-- Form Handler -->
         <service id="l91.sulu.form.handler" class="%l91.sulu.form.handler.class%">
             <argument type="service" id="form.factory" />
             <argument type="service" id="form.extension" />
@@ -24,15 +25,22 @@
             <argument type="service" id="logger" />
         </service>
 
-        <service id="l91.sulu.mail.helper" class="%l91.sulu.mail.helper.class%">
-            <argument type="service" id="mailer" />
-            <argument>%l91.sulu.form.mail.from%</argument>
-            <argument>%l91.sulu.form.mail.to%</argument>
-            <argument type="service" id="logger" />
+        <service id="l91.sulu.list.provider.registry"
+                 class="L91\Sulu\Bundle\FormBundle\Provider\ListProviderRegistry" />
+
+        <!-- Admin -->
+        <service id="l91_sulu_form.admin"
+                 class="L91\Sulu\Bundle\FormBundle\Admin\FormAdmin">
+            <tag name="sulu.admin"/>
+            <tag name="sulu.context" context="admin"/>
+            <argument type="service" id="sulu_security.security_checker"/>
+            <argument>%sulu_admin.name%</argument>
         </service>
 
-        <service id="l91.sulu.mail.null_helper" class="%l91.sulu.mail.null_helper.class%">
-            <argument type="service" id="logger" />
+        <service id="l91_sulu_form.navigation_provider.form"
+                 class="L91\Sulu\Bundle\FormBundle\Admin\FormNavigationProvider">
+            <tag name="sulu_admin.content_navigation" alias="l91_sulu_form_form" />
+            <tag name="sulu.context" context="admin" />
         </service>
 
         <service id="l91.sulu.navigation_provider.template"
@@ -42,36 +50,16 @@
             <tag name="sulu_admin.content_navigation" alias="content"/>
         </service>
 
-        <service id="l91.sulu.list.provider.registry"
-                 class="L91\Sulu\Bundle\FormBundle\Provider\ListProviderRegistry" />
-
-        <!-- Dyn Form -->
-        <service id="l91_sulu_form.repository.form" class="L91\Sulu\Bundle\FormBundle\Repository\FormRepository">
-            <factory service="doctrine.orm.entity_manager" method="getRepository"/>
-            <argument>L91SuluFormBundle:Form</argument>
-        </service>
-
-        <service id="l91_sulu_form.navigation_provider.form"
-                 class="L91\Sulu\Bundle\FormBundle\Admin\FormNavigationProvider">
-            <tag name="sulu_admin.content_navigation" alias="l91_sulu_form_form" />
-            <tag name="sulu.context" context="admin" />
-        </service>
-
-        <service id="l91_sulu_form.admin"
-                 class="L91\Sulu\Bundle\FormBundle\Admin\FormAdmin">
-            <tag name="sulu.admin"/>
-            <tag name="sulu.context" context="admin"/>
-            <argument type="service" id="sulu_security.security_checker"/>
-            <argument>%sulu_admin.name%</argument>
-        </service>
-
+        <!-- Manager -->
         <service id="l91_sulu_form.manager.form"
                  class="L91\Sulu\Bundle\FormBundle\Manager\FormManager">
             <argument id="doctrine.orm.default_entity_manager" type="service" />
             <argument id="l91_sulu_form.repository.form" type="service" />
         </service>
 
-        <service id="l91_sulu_form.content_type.form_select" class="L91\Sulu\Bundle\FormBundle\Content\Types\FormSelect">
+        <!-- Content Types -->
+        <service id="l91_sulu_form.content_type.form_select"
+                 class="L91\Sulu\Bundle\FormBundle\Content\Types\FormSelect">
             <argument>L91SuluFormBundle:Template:content-types/form_select_simple.html.twig</argument>
             <argument id="l91_sulu_form.repository.form" type="service" />
             <argument id="request_stack" type="service" />
@@ -81,6 +69,29 @@
             <argument type="service" id="event_dispatcher"/>
 
             <tag name="sulu.content.type" alias="form_select"/>
+        </service>
+
+        <!-- Repositories -->
+        <service id="l91_sulu_form.repository.form" class="L91\Sulu\Bundle\FormBundle\Repository\FormRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository"/>
+            <argument>L91SuluFormBundle:Form</argument>
+        </service>
+
+        <service id="l91_sulu_form.repository.dynamic" class="Doctrine\ORM\EntityRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository"/>
+            <argument>L91SuluFormBundle:Dynamic</argument>
+        </service>
+
+        <!-- Mail Helper -->
+        <service id="l91.sulu.mail.helper" class="%l91.sulu.mail.helper.class%">
+            <argument type="service" id="mailer" />
+            <argument>%l91.sulu.form.mail.from%</argument>
+            <argument>%l91.sulu.form.mail.to%</argument>
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="l91.sulu.mail.null_helper" class="%l91.sulu.mail.null_helper.class%">
+            <argument type="service" id="logger" />
         </service>
     </services>
 </container>
